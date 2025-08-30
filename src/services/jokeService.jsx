@@ -1,5 +1,5 @@
-const jokeService = async (newJoke) => {
-console.log(newJoke)
+export const postJoke = async (newJoke) => {
+
 
     if (newJoke !== "") {
         const postOptions = {
@@ -28,6 +28,9 @@ console.log(newJoke)
 }
 
 
+export const getAllJokes = async () => {
+    return await fetch(`http://localhost:8088/jokes`).then(res => res.json())
 
-export default jokeService
+}
+
  
