@@ -1,6 +1,5 @@
 export const postJoke = async (newJoke) => {
 
-
     if (newJoke !== "") {
         const postOptions = {
             method: "POST",
@@ -20,17 +19,11 @@ export const postJoke = async (newJoke) => {
     else {
         window.alert(`Please enter text to submit joke`)
     }
-
-
-
-
-
 }
 
 
 export const getAllJokes = async () => {
     return await fetch(`http://localhost:8088/jokes`).then(res => res.json())
-
 }
 
 export const patchJoke = async (editedJokeObject) => {
@@ -48,3 +41,12 @@ export const patchJoke = async (editedJokeObject) => {
         const response = await fetch(`http://localhost:8088/jokes/${editedJokeObject.id}`, patchOptions)
 }
  
+export const deleteJoke = async (deletedJokeObject) => {
+    const deleteOptions = {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json"
+        },
+    }
+    const response = await fetch(`http://localhost:8088/jokes/${deletedJokeObject.id}`, deleteOptions)
+}

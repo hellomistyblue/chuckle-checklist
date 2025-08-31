@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { postJoke, getAllJokes, patchJoke } from "./services/jokeService"
+import { postJoke, getAllJokes, patchJoke, deleteJoke } from "./services/jokeService"
 
 
 export const App = () => {
@@ -47,6 +47,12 @@ export const App = () => {
     setAllJokes(updatedJokes)
   }
 
+  const handleDeleteJoke = async (deletedJokeObject) => {
+    await deleteJoke(deletedJokeObject)
+    const updatedJokes = await getAllJokes()
+    setAllJokes(updatedJokes)
+  }
+
   return <div>
     <header className="app-heading-container">
       <h1 className="app-heading-text">
@@ -81,8 +87,13 @@ export const App = () => {
                     <div>
                       <button className="joke-list-action-toggle"
                       onClick={() => { 
+                        handleDeleteJoke(untoldJoke)
+                      }}                    
+                      >🗑️</button>
+                      <button className="joke-list-action-toggle"
+                      onClick={() => { 
                         handleEditJoke(untoldJoke)
-                      }}                      
+                      }}                    
                       >❌</button>
                     </div>
                   </li>
@@ -100,6 +111,11 @@ export const App = () => {
                   <li key={toldJoke.id} className="joke-list-item">
                     <p className="joke-list-item-text">{toldJoke.text}</p>
                     <div>
+                      <button className="joke-list-action-toggle"
+                      onClick={() => { 
+                        handleDeleteJoke(toldJoke)
+                      }}                    
+                      >🗑️</button>                      
                       <button className="joke-list-action-toggle"
                       onClick={() => { 
                         handleEditJoke(toldJoke)
