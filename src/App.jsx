@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
-import { postJoke, getAllJokes } from "./services/jokeService"
+import { postJoke, getAllJokes, patchJoke } from "./services/jokeService"
+
 
 export const App = () => {
   const [allJokes, setAllJokes] = useState([])
@@ -34,15 +35,18 @@ export const App = () => {
     [allJokes]
   )
 
-  const handleAddJoke = () => { 
-    postJoke(jokeText)
-    getAllJokes().then(
-      (jokesArray) => {
-        setAllJokes(jokesArray)
-      }
-    )
+  const handleAddJoke = async () => { 
+    await postJoke(jokeText)
+    const updatedJokes = await getAllJokes()
+    setAllJokes(updatedJokes)    
     setJokeText("")
   }
+  const handleEditJoke = async (editedJokeObject) => {
+    await patchJoke(editedJokeObject)
+    const updatedJokes = await getAllJokes()
+    setAllJokes(updatedJokes)
+  }
+
   return <div>
     <header className="app-heading-container">
       <h1 className="app-heading-text">
@@ -74,6 +78,13 @@ export const App = () => {
                 return (
                   <li key={untoldJoke.id} className="joke-list-item">
                     <p className="joke-list-item-text">{untoldJoke.text}</p>
+                    <div>
+                      <button className="joke-list-action-toggle"
+                      onClick={() => { 
+                        handleEditJoke(untoldJoke)
+                      }}                      
+                      >❌</button>
+                    </div>
                   </li>
                 )
               }
@@ -88,6 +99,12 @@ export const App = () => {
                 return (
                   <li key={toldJoke.id} className="joke-list-item">
                     <p className="joke-list-item-text">{toldJoke.text}</p>
+                    <div>
+                      <button className="joke-list-action-toggle"
+                      onClick={() => { 
+                        handleEditJoke(toldJoke)
+                      }}>✅</button>                      
+                    </div>
                   </li>
                 )
               }

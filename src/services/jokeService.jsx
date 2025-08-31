@@ -33,4 +33,18 @@ export const getAllJokes = async () => {
 
 }
 
+export const patchJoke = async (editedJokeObject) => {
+        const patchOptions = {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(
+                {
+                    told: !editedJokeObject.told
+                }
+            )
+        }
+        const response = await fetch(`http://localhost:8088/jokes/${editedJokeObject.id}`, patchOptions)
+}
  
